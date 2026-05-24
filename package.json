@@ -1,0 +1,52 @@
+{
+  "name": "remuru-js",
+  "version": "1.0.0",
+  "description": "A complete npm-ready frontend framework: Absorb • Adapt • Accelerate",
+  "type": "module",
+  "main": "./dist/remuru.cjs",
+  "module": "./dist/remuru.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/remuru.js",
+      "require": "./dist/remuru.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "framework",
+    "signals",
+    "ssr",
+    "micro-frontend",
+    "ai-optimization",
+    "vite-plugin-quantum-css"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^8.0.14",
+    "vite-plugin-dts": "^5.0.1",
+    "vitest": "^4.1.7"
+  },
+  "peerDependencies": {
+    "vite-plugin-quantum-css": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vite-plugin-quantum-css": {
+      "optional": true
+    }
+  },
+  "overrides": {
+    "ajv": "^6.14.0",
+    "lodash": "^4.17.25",
+    "minimatch": "^3.1.4"
+  }
+}
