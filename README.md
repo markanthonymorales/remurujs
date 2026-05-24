@@ -21,8 +21,8 @@ This sandbox demonstrates how to abstract raw instruction arrays into an elegant
 remuru-test-app/
 ├── src/
 │   ├── Component.js     # OOP Component Factory wrapper 🧩
-│   └── index.css         # Tailwind Core Directives 🎨
-├── app.js               # Application Controller & App Views 💻
+│   ├── app.js           # Application Controller & App Views 💻
+│   └── index.css        # Tailwind Core Directives 🎨
 ├── index.html           # System Shell Mount Target
 ├── tailwind.config.js   # Style Extraction Layer
 └── vite.config.js       # Macro Engine and Debug Port mapping
@@ -31,7 +31,7 @@ remuru-test-app/
 
 ---
 
-## 🛠️ The Core OOP Layer (`src/Component.js`)
+## 🛠️ The Core OOP Layer (`./Component.js`)
 
 This lightweight utility orchestrates chainable, flat instruction array footprints directly out of Object-Oriented layouts:
 
@@ -117,7 +117,7 @@ Because components compile in memory at runtime inside the browser client, Tailw
 export default {
   content: [
     "./index.html",
-    "./app.js",
+    "./src/app.js",
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
