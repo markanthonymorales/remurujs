@@ -1,61 +1,81 @@
-# RemuruJS OOP Integration Sandbox 🧪
+# RemuruJS 🧬
 
-An interactive, dark-themed developer dashboard built to test deep integration between the [RemuruJS](https://github.com/markanthonymorales/remurujs) reactive runtime core and the [Vite Plugin Quantum CSS](https://github.com/markanthonymorales/vite-plugin-quantum-css/tree/main) macro compilation engine.
-
-This sandbox demonstrates how to abstract raw instruction arrays into an elegant, scaleable **Object-Oriented Programming (OOP)** component architecture without breaking static AST style parsers.
+RemuruJS is a high-velocity, ultra-lightweight frontend framework designed to collapse architectural overhead. By replacing heavy Virtual DOM reconciliation algorithms with a fine-grained, instruction-driven side-effect runtime, RemuruJS updates the native document layout with surgical precision.
 
 ---
 
-## 🚀 Key Implementation Features
+## 🚀 Core Pillars
 
-* **OOP Component Abstraction:** Completely wraps raw framework layout objects (`{ type: 'CREATE', ... }`) into clean, chainable JavaScript class instances.
-* **Static/Reactive Boundary Splitting:** Passes structural layouts via compiled `qClass` properties while isolating dynamic states inside standard `class` attributes to avoid compiler regex crashes.
-* **Polymorphic Tab Routing:** Leverages Remuru's fine-grained atomic reactivity engine (`useAdaptiveState` and `createEffect`) to flush and rewrite the DOM instantly without using a Virtual DOM.
-* **Macro Layout Expansion:** Integrates seamlessly with your local build utilities like `btn-quantum` and nested variant groups (e.g., `hover(...)`).
+* **Zero Virtual DOM Overhead:** State mutations translate directly into atomic instruction packets (`CREATE`, `ATTR`, `LISTEN`, `APPEND`), modifying the layout instantly.
+* **Granular Reactive Primitives:** Leverages predictable state cells (`useAdaptiveState`) and automatic dependency trackers (`createEffect`) to isolate re-renders.
+* **Compiler-Friendly Footprint:** Explicitly designed to pair with AST-based optimization engines like [Vite Plugin Quantum CSS](https://github.com/markanthonymorales/vite-plugin-quantum-css/tree/main) to process advanced design layouts without runtime parsing bottlenecks.
 
 ---
 
-## 📂 Project Architecture
+## 📦 Installation
 
-```text
-remuru-test-app/
-├── src/
-│   ├── Component.js     # OOP Component Factory wrapper 🧩
-│   ├── app.js           # Application Controller & App Views 💻
-│   └── index.css        # Tailwind Core Directives 🎨
-├── index.html           # System Shell Mount Target
-├── tailwind.config.js   # Style Extraction Layer
-└── vite.config.js       # Macro Engine and Debug Port mapping
+To link or import RemuruJS directly into your application workspace:
+
+```bash
+npm install remuru-js
 
 ```
 
 ---
 
-## 🛠️ The Core OOP Layer (`./Component.js`)
+## 🧩 Architectural Approaches
 
-This lightweight utility orchestrates chainable, flat instruction array footprints directly out of Object-Oriented layouts:
+RemuruJS adapts smoothly to your preferred code style, offering both a low-level structural array matrix and an advanced, chainable Object-Oriented Component API.
+
+### Approach 1: Low-Level Instruction Engine (Procedural)
+
+The core rendering engine processes an array of atomic command descriptors. This offers absolute control over memory management and layout generation:
 
 ```javascript
+import { RemuruRuntime, useAdaptiveState, createEffect } from 'remuru-js';
+
+const runtime = new RemuruRuntime();
+const [count, setCount] = useAdaptiveState(0);
+
+createEffect(() => {
+  runtime.clear();
+  
+  runtime.execute([
+    { type: 'CREATE', target: 'card', value: 'div' },
+    { type: 'ATTR', target: 'card', name: 'class', value: 'p-6 bg-gray-900 rounded-xl' },
+
+    { type: 'CREATE', target: 'counter', value: 'p' },
+    { type: 'TEXT', target: 'counterTxt', value: `Dispatched: ${count.value}` },
+    { type: 'APPEND', target: 'counterTxt', name: 'counter' },
+    { type: 'APPEND', target: 'counter', name: 'card' },
+
+    { type: 'CREATE', target: 'btn', value: 'button' },
+    { type: 'LISTEN', target: 'btn', name: 'click', value: () => setCount(count.value + 1) },
+    { type: 'TEXT', target: 'btnTxt', value: 'Pulse' },
+    { type: 'APPEND', target: 'btnTxt', name: 'btn' },
+    { type: 'APPEND', target: 'btn', name: 'card' },
+
+    { type: 'APPEND', target: 'card', name: 'root' }
+  ], document.getElementById('app'));
+});
+
+```
+
+### Approach 2: Reusable Object-Oriented Component Model (Recommended)
+
+For production-scale codebases, you can encapsulate instruction pipelines into clean, chainable class factories. This cleanly isolates static compiler parameters (like `qClass`) from framework reactive parameters to prevent string-parser collisions:
+
+```javascript
+// src/Component.js
 export class Component {
   constructor() {
     this.instructions = [];
   }
 
-  /**
-   * Chainable element factory
-   * @param {string} target - Internal reference node mapping identifier
-   * @param {string} tag - HTML element node signature
-   * @param {string} qClass - Static compiler utility strings
-   * @param {string} standardClass - Dynamic framework runtime variable parameters
-   */
   createElement(target, tag, qClass = '', standardClass = '') {
     this.instructions.push({ type: 'CREATE', target, value: tag });
-    if (qClass) {
-      this.instructions.push({ type: 'ATTR', target, name: 'qClass', value: qClass });
-    }
-    if (standardClass) {
-      this.instructions.push({ type: 'ATTR', target, name: 'class', value: standardClass });
-    }
+    if (qClass) this.instructions.push({ type: 'ATTR', target, name: 'qClass', value: qClass });
+    if (standardClass) this.instructions.push({ type: 'ATTR', target, name: 'class', value: standardClass });
     return this;
   }
 
@@ -82,48 +102,55 @@ export class Component {
 
 ```
 
----
-
-## ⚡ Development Workflow
-
-### 1. Initialize Local Environments
-
-Ensure your framework symlinks or local dependencies are running cleanly inside your sandbox layout:
-
-```bash
-npm install
-
-```
-
-### 2. Launch the Development Server
-
-Boot up the Vite pipeline with an explicitly cleared dependency cache state:
-
-```bash
-npx vite --force
-
-```
-
----
-
-## ⚙️ Critical Compiler Configuration Rules
-
-### Tailwind File Extraction Strategy (`tailwind.config.js`)
-
-Because components compile in memory at runtime inside the browser client, Tailwind must watch your JavaScript application engine files to catch utility string tokens before they deploy:
+#### OOP Implementation:
 
 ```javascript
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/app.js",
-    "./src/**/*.{js,ts,jsx,tsx}"
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+import { RemuruRuntime, useAdaptiveState, createEffect } from 'remuru-js';
+import { Component } from './src/Component';
+
+const runtime = new RemuruRuntime();
+const [active, setActive] = useAdaptiveState(false);
+
+createEffect(() => {
+  runtime.clear();
+  const ui = new Component();
+
+  ui.createElement('panel', 'div', 'p-6 rounded-2xl border')
+    // Isolate highly reactive changing utilities to the standardClass parameter
+    .createElement('toggle', 'button', 'px-4 py-2 font-mono text-xs font-bold', active.value ? 'bg-emerald-500 text-white' : 'bg-gray-800 text-gray-400')
+    .addEventListener('toggle', 'click', () => setActive(!active.value))
+    .addText('toggleTxt', active.value ? 'SYSTEM ON' : 'SYSTEM OFF', 'toggle')
+    .appendNode('toggle', 'panel')
+    .appendNode('panel', 'root');
+
+  runtime.execute(ui.render(), document.getElementById('app'));
+});
 
 ```
+
+---
+
+## 🛠️ API Matrix Reference
+
+### Reactive Tokens
+
+* **`useAdaptiveState(initialValue)`**
+Initializes an atomic state cell capsule containing an observable reactive surface. Returns `[stateGetter, stateSetter]`. Read values using `.value`.
+* **`createEffect(callback)`**
+Registers an immediate subscription loop tracking any dynamic state cell accessed during invocation. Automatically schedules localized structural repairs when targeted cells change.
+
+### Runtime Command Packets
+
+| Instruction Type | Target Node Keyword | Property Modifier Path | Operational Role |
+| --- | --- | --- | --- |
+| `CREATE` | Unique ID string | HTML tag notation | Generates a detached DOM instance. |
+| `ATTR` | Unique ID string | Target attribute key | Mutates explicit node properties. |
+| `TEXT` | Unique ID string | Text content string | Mounts safe literal character values. |
+| `LISTEN` | Unique ID string | Listener trigger type | Binds native event triggers. |
+| `APPEND` | Unique ID string | Parent recipient key | Links nodes into the layout tree. |
+
+---
+
+## 📄 License
+
+MIT License. Open source and free to extend!
