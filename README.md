@@ -63,7 +63,7 @@ createEffect(() => {
 
 ### Approach 2: Reusable Object-Oriented Component Model (Recommended)
 
-For production-scale codebases, you can encapsulate instruction pipelines into clean, chainable class factories. This cleanly isolates static compiler parameters (like `qClass`) from framework reactive parameters to prevent string-parser collisions:
+For production-scale codebases, you can encapsulate instruction pipelines into clean, chainable class factories. This cleanly isolates static compiler parameters (like `class`) from framework reactive parameters to prevent string-parser collisions:
 
 ```javascript
 // src/Component.js
@@ -72,10 +72,9 @@ export class Component {
     this.instructions = [];
   }
 
-  createElement(target, tag, qClass = '', standardClass = '') {
+  createElement(target, tag, class = '') {
     this.instructions.push({ type: 'CREATE', target, value: tag });
-    if (qClass) this.instructions.push({ type: 'ATTR', target, name: 'qClass', value: qClass });
-    if (standardClass) this.instructions.push({ type: 'ATTR', target, name: 'class', value: standardClass });
+    this.instructions.push({ type: 'ATTR', target, name: 'class', value: class });
     return this;
   }
 
